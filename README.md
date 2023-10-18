@@ -4,7 +4,7 @@ If Classroom shows you a popup (not just a message in chat) that the student lef
 
 I only noticed it by chance when it happened the first time last month, so I suspect it's happened before. And if it happened to me, it's probably happened to other people. 
 
-Because basically, TutorDotCom is doing wage theft. It's wage theft via incompetence , rather than malice, but it's wage theft nonetheless.
+Basically, TutorDotCom is doing wage theft. It's wage theft via incompetence , rather than malice, but it's wage theft nonetheless.
 
 # This Script
 
