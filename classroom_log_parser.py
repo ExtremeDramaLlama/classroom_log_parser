@@ -20,15 +20,9 @@ If an error occurs, it dumps the stacktrace into the log. These can be identifie
 starting with a space, or being "Server stack trace:" or "Exception rethrown at [0]:". Or
 just not starting with a digit.
 
-To identify wage theft, I want to look for the student leaving, and then me leaving,
-but not for some time later. Five minutes later should cover any false positives,
+To identify wage theft, I want to look for the customer leaving, and then me leaving,
+but not for some time later. A few minutes later should cover any false positives,
 although I should look at the actual data and find out what the average is.
-
-Parsing should reset if an error is encountered. Parsing should start when finding a
-"Session Window Loaded" and then work backward to find the join message. If there isn't a join
-message in the last 10 seconds, it's a false alarm.
-Parsing should reset if there's a crash. Parsing should stop if I leave. If I don't leave but
-there's another "session window loaded" that's real, log it for investigation and reset.
 """
 
 import re
@@ -57,7 +51,7 @@ TIMESTAMP = re.compile(r"^(\d{1,2}/\d{1,2}/\d{4} \d{1,2}:\d{2}:\d{2} (?:AM|PM))"
 # would generate a lot of false positives. Note that as soon as you click "leave
 # session", the "ConferenceMemberLeft!" message is logged, even though you can
 # still see the session window behind the post-session survey window.
-TIME_DELTA = 2
+TIME_DELTA = 5
 
 
 def parse_time(line: str) -> datetime:
@@ -78,6 +72,10 @@ class ChatStateMachine:
         self.customer_name_who_left = ""
 
     def initial_state(self, line: str):
+        if self.customer_joined(line):
+            self.state = self.initial_state
+            return
+
         match = CUSTOMER_DISCONNECTION.search(line)
         if match:
             self.customer_name_who_left = match.group(1)
@@ -85,7 +83,7 @@ class ChatStateMachine:
             self.state = self.customer_left
 
     def customer_left(self, line: str):
-        # If the student comes back, we want to reset the timer.
+        # If the customer comes back, we want to reset the timer.
         if self.customer_joined(line):
             self.state = self.initial_state
             return
@@ -108,8 +106,10 @@ class ChatStateMachine:
                 # Clear the names to indicate that we're not in a session.
                 self.customer_name_who_left = ""
                 self.customer_name_who_joined = ""
+                self.session_start_time = None
+                self.customer_left_time = None
 
-                self.state = self.initial_state
+            self.state = self.initial_state
 
     def customer_joined(self, line: str) -> bool:
         """
