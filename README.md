@@ -16,7 +16,7 @@ At least for me theres a missing span of a month or two that's not anywhere to b
 
 There's a javascript version at https://extremedramallama.github.io/
 
-For this one, since you can only upload one file at time, you might want to concatenate all the files together. You can do that using powershell:
+For this one, since you can only upload one file at time, you might want to combine all the files together. You can do that using powershell:
 
 ```powershell
 Get-ChildItem "$env:LOCALAPPDATA\Tutor.com\Tutor.com Classroom\*\Log.txt" | Get-Content | Out-File "$env:USERPROFILE\Desktop\FullLog.txt" -Encoding utf8
