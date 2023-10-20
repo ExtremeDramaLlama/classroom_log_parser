@@ -74,7 +74,6 @@ class ChatStateMachine {
                     unpaidTime: timeBetweenEvents
                 };
                 displayMessage(information);
-                displayMessage(information);
                 this.customerNameWhoLeft = "";
                 this.customerNameWhoJoined = "";
                 this.sessionStartTime = null;
