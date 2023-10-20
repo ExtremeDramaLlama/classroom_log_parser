@@ -29,6 +29,7 @@ function displayMessage(message) {
     `;
     resultsDiv.innerHTML += cardHtml;
 }
+
 class ChatStateMachine {
     constructor() {
         this.state = this.initialState;
@@ -64,15 +65,15 @@ class ChatStateMachine {
 
             if (timeBetweenEvents > TIME_DELTA) {
 
-            const information = {
-                sessionStartTime: this.sessionStartTime,
-                customerNameWhoLeft: this.customerNameWhoLeft,
-                customerLeftTime: this.customerLeftTime,
-                tutorLeftTime: tutorLeftTime,
-                paidTime: parseFloat((this.customerLeftTime - this.sessionStartTime).toFixed(2)),
-                unpaidTime: timeBetweenEvents
-            };
-            displayMessage(information);
+                const information = {
+                    sessionStartTime: this.sessionStartTime,
+                    customerNameWhoLeft: this.customerNameWhoLeft,
+                    customerLeftTime: this.customerLeftTime,
+                    tutorLeftTime: tutorLeftTime,
+                    paidTime: this.customerLeftTime - this.sessionStartTime,
+                    unpaidTime: timeBetweenEvents
+                };
+                displayMessage(information);
                 displayMessage(information);
                 this.customerNameWhoLeft = "";
                 this.customerNameWhoJoined = "";
@@ -107,7 +108,7 @@ function handleFileUpload(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         const logContents = e.target.result.split("\n");
         const parser = new ChatStateMachine();
         parser.process(logContents);
