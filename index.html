@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log File Parser</title>
+  </head>
+  <body>
+    <p>
+      See
+      <a
+        href="https://github.com/ExtremeDramaLlama/classroom_log_parser/blob/main/README.md"
+        >the readme</a
+      >
+      for details, and instructions on combining your log files.
+    </p>
+    <h2>Upload your log file:</h2>
+    <input type="file" id="logFile" onchange="handleFileUpload(event)" />
+    <hr />
+    <h3>Results:</h3>
+    <div id="results" style="white-space: pre-line"></div>
+    <script src="log_parser.js"></script>
+  </body>
+</html>
