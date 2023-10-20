@@ -13,9 +13,22 @@ function parseTime(line) {
 
 function displayMessage(message) {
     const resultsDiv = document.getElementById("results");
-    resultsDiv.textContent += message + "\n\n";
+    const cardHtml = `
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Possible missing pay on ${message.sessionStartTime}:</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Customer: ${message.customerNameWhoLeft}</li>
+                    <li class="list-group-item">Customer disconnect registered at: ${message.customerLeftTime}</li>
+                    <li class="list-group-item">Tutor disconnect registered at: ${message.tutorLeftTime}</li>
+                    <li class="list-group-item">Paid time: ${(message.paidTime / (1000 * 60)).toFixed(2)}</li>
+                    <li class="list-group-item">Unpaid time: ${message.unpaidTime.toFixed(2)}</li>
+                </ul>
+            </div>
+        </div>
+    `;
+    resultsDiv.innerHTML += cardHtml;
 }
-
 class ChatStateMachine {
     constructor() {
         this.state = this.initialState;
@@ -50,12 +63,16 @@ class ChatStateMachine {
             const timeBetweenEvents = (tutorLeftTime - this.customerLeftTime) / (1000 * 60); // in minutes
 
             if (timeBetweenEvents > TIME_DELTA) {
-                const information = `Detected possible missing pay on ${this.sessionStartTime}:
-  Customer: ${this.customerNameWhoLeft}
-  Customer disconnect registered at ${this.customerLeftTime}
-  Tutor disconnect registered at ${tutorLeftTime}
-  Paid time: ${((this.customerLeftTime - this.sessionStartTime) / (1000 * 60)).toFixed(2)}
-  Unpaid time: ${timeBetweenEvents.toFixed(2)}`;
+
+            const information = {
+                sessionStartTime: this.sessionStartTime,
+                customerNameWhoLeft: this.customerNameWhoLeft,
+                customerLeftTime: this.customerLeftTime,
+                tutorLeftTime: tutorLeftTime,
+                paidTime: parseFloat((this.customerLeftTime - this.sessionStartTime).toFixed(2)),
+                unpaidTime: timeBetweenEvents
+            };
+            displayMessage(information);
                 displayMessage(information);
                 this.customerNameWhoLeft = "";
                 this.customerNameWhoJoined = "";
