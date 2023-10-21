@@ -18,7 +18,7 @@ If you want to scan all the previous log files, you can use this powershell one-
 Get-ChildItem "$env:LOCALAPPDATA\Tutor.com\Tutor.com Classroom\*\Log.txt" | Get-Content | Out-File "$env:USERPROFILE\Desktop\FullLog.txt" -Encoding utf8
 ```
 
-# Import Notes
+# Important Notes
 
 This tool is not guaranteed to be perfect. Double check all results against what's shown in your [billing info](https://prv.tutor.com/nGEN/Apps/SocWinSupportingPages/Provider/BillingInfo.aspx). On that linked page, if you click on your earnings, it will show the date and times and how much you earned for every session that month. 
 
