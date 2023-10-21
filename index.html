@@ -16,27 +16,67 @@
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <h1 class="text-center mb-4">Missed Pay Detector</h1>
-
-            <!-- Instructions Section -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Introduction</h5>
                     <div class="card-text">
-                        <p>This is a tool intended for tutors contracted with Tutor.com. The software we
-                            use, Classroom, has some flaws. One of these flaws is that it will, sometimes, falsely
-                            detect
-                            that the student has left the session. The visible symptom of this is that you recieve a
-                            popup
-                            say that the student left, even though the student is still there and the session is
-                            proceding
-                            normally otherwise.
-                        <p>At this point, you are no longer being paid for your time, and you will have to submit a
+                        <p>
+                            This is a tool intended for tutors contracted with Tutor.com.
+                        </p>
+                        <p>
+                            The software we use, Classroom, has some flaws. One of these flaws is that it will,
+                            sometimes, falsely detect that the student has left the session. The only visible symptom of
+                            this appears to be that you receive a popup (not just a message in chat) saying that the
+                            student left, even though the student is still there and the session is proceeding normally
+                            otherwise.
+                        </p>
+                        <p>
+                            At this point, you are no longer being paid for your time, and you will have to submit a
                             support ticket, along with the log file, to get paid for that missing time. It's very easy
-                            to
-                            miss
-                            these incidents, which is why I created this tool that analyzes the log file and tries to
-                            detect
-                            them.
+                            to miss these incidents, which is why I created this tool that analyzes the log file and
+                            tries to detect them.
+                        </p>
+
+                        <h5>Finding the Log File</h5>
+                        <p>
+                            The log files (plural, because Classroom keeps a separate one for each version of the
+                            software) are stored in the <code>%AppDataLocal%/Tutor.com/Tutor.com Classroom/&lt;version&gt;/</code>
+                            directories.
+                        </p>
+                        <p>
+                            For non-nerds, you can find the log file for the current version by right clicking on the
+                            tray icon, clicking "about", and then clicking the link to the log file. This will open the
+                            file in your default text editor. You can "save as" to save a copy to your desktop so it's
+                            easy to find and upload.
+                        </p>
+                        <p>
+                            If you want to scan all the previous log files, you can use this powershell one-liner to
+                            combine all the logs and output the combined log to your desktop:
+                        </p>
+                        <div class="card mb-3">
+                            <div class="card-body" style="overflow-x: auto;">
+            <pre><code class="language-powershell">
+Get-ChildItem "$env:LOCALAPPDATA\Tutor.com\Tutor.com Classroom\*\Log.txt" | Get-Content | Out-File "$env:USERPROFILE\Desktop\FullLog.txt" -Encoding utf8
+            </code></pre>
+                            </div>
+                        </div>
+
+                        <h5>Import Notes</h5>
+                        <p>
+                            This tool is not guaranteed to be perfect. Double check all results against what's shown in
+                            your <a
+                                href="https://prv.tutor.com/nGEN/Apps/SocWinSupportingPages/Provider/BillingInfo.aspx">billing
+                            info</a>. On that linked page, if you click on your earnings, it will show the date and
+                            times and how much you earned for every session that month.
+                        </p>
+                        <p>
+                            Note that the times shown on that billing info page are in Eastern Time, while your log file
+                            uses your local time.
+                        </p>
+                        <p>
+                            This tool uses a five minute threshold to detect events, in order to prevent false
+                            positives.
+                        </p>
                     </div>
                 </div>
             </div>

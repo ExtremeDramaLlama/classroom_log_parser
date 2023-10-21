@@ -1,28 +1,46 @@
 # Backstory
 
-If Classroom shows you a popup (not just a message in chat) that the student left, then you are no longer getting paid for your time, and will have to file support ticket to get your money.
+This is a tool intended for tutors contracted with Tutor.com. 
 
-I only noticed it by chance when it happened the first time last month, so I suspect it's happened before. And if it happened to me, it's probably happened to other people. 
+The software we use, Classroom, has some flaws. One of these flaws is that it will, sometimes, falsely detect that the student has left the session. The only visible symptom of this appears to be that you receive a popup (not just a message in chat) saying that the student left, even though the student is still there and the session is proceeding normally otherwise. 
 
-Basically, TutorDotCom is doing wage theft. It's wage theft via incompetence , rather than malice, but it's wage theft nonetheless.
+At this point, you are no longer being paid for your time, and you will have to submit a support ticket, along with the log file, to get paid for that missing time. It's very easy to miss these incidents, which is why I created this tool that analyzes the log file and tries to detect them.
 
-# This Script
+# Finding the Log File
 
-Run it and it will look through all available log files in the `%AppDataLocal%/Tutor.com/Tutor.com Classroom/<version>/` directories.
+The log files (plural, because Classroom keeps a separate one for each version of the software) are stored in the `%AppDataLocal%/Tutor.com/Tutor.com Classroom/<version>/` directories.
 
-At least for me theres a missing span of a month or two that's not anywhere to be found, not sure what's up with that. Possibly the log files are rotated, I'm not actually sure.
+For non-nerds, you can find the log file for the current version by right clicking on the tray icon, clicking "about", and then clicking the link to the log file. This will open the file in your default text editor. You can "save as" to save a copy to your desktop so it's easy to find and upload.
 
-# The Web Version
-
-There's a javascript version at https://extremedramallama.github.io/
-
-For this one, since you can only upload one file at time, you might want to combine all the files together. You can do that using powershell:
+If you want to scan all the previous log files, you can use this powershell one-liner to combine all the logs and output the combined log to your desktop:
 
 ```powershell
 Get-ChildItem "$env:LOCALAPPDATA\Tutor.com\Tutor.com Classroom\*\Log.txt" | Get-Content | Out-File "$env:USERPROFILE\Desktop\FullLog.txt" -Encoding utf8
 ```
 
-If you're justifiably cautious about pasting random code into your terminal, here's a breakdown of that, provided by ChatGPT: 
+# Import Notes
+
+This tool is not guaranteed to be perfect. Double check all results against what's shown in your [billing info](https://prv.tutor.com/nGEN/Apps/SocWinSupportingPages/Provider/BillingInfo.aspx). On that linked page, if you click on your earnings, it will show the date and times and how much you earned for every session that month. 
+
+Note that the times shown on that billing info page are in Eastern Time, while your log file uses your local time.
+
+This tool uses a five minute threshold to detect events, in order to prevent false positives.
+
+# Python Version
+
+There's also a python version if you're a nerd and want something you can script to run automatically. Which is what I plan on setting up at some point; I'll update this with instructions when I do.
+
+The python version automatically looks through all available log files in the `%AppDataLocal%/Tutor.com/Tutor.com Classroom/<version>/` directories.
+
+At least for me theres a missing span of a month or two that's not anywhere to be found, not sure what's up with that. Possibly the log files are rotated, I'm not actually sure.
+
+# Concatenating the Log Files
+
+I provided a powershell snippet earlier that combines all the log directories. Since you really shouldn't paste random code into your terminal without knowing what it does, here's a ChatGPT-provided breakdown:
+
+```powershell
+Get-ChildItem "$env:LOCALAPPDATA\Tutor.com\Tutor.com Classroom\*\Log.txt" | Get-Content | Out-File "$env:USERPROFILE\Desktop\FullLog.txt" -Encoding utf8
+```
 
 1. **`Get-ChildItem`** - This cmdlet retrieves items (like files and directories) from a specified location.
 
