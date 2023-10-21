@@ -22,9 +22,9 @@ Get-ChildItem "$env:LOCALAPPDATA\Tutor.com\Tutor.com Classroom\*\Log.txt" | Get-
 
 This tool is not guaranteed to be perfect. Double check all results against what's shown in your [billing info](https://prv.tutor.com/nGEN/Apps/SocWinSupportingPages/Provider/BillingInfo.aspx). On that linked page, if you click on your earnings, it will show the date and times and how much you earned for every session that month. 
 
-Note that the times shown on that billing info page are in Eastern Time, while your log file uses your local time.
+Note that the times shown on that billing info page are in Eastern Time, while your log file uses your local time. The log file, as least for me as a US resident, is timestamped in US format, meaning month/day/year. If you live outside the US (and more importantly, have Windows set to use a non-US locale), your logfile *may* use day/month/year, in which case this tool will give you completely wrong information. I really don't know if this will happen or not, so if it *does*, I'd love to know. 
 
-This tool uses a five minute threshold to detect events, in order to prevent false positives.
+This tool uses a five minute threshold to detect events, in order to prevent false positives. This is because when classroom is working correctly and the student leaves first, there's always going to be a non-zero amount of time between that event and you clicking the end session button.
 
 # Python Version
 
