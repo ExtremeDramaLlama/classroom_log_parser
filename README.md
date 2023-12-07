@@ -8,7 +8,7 @@ At this point, you are no longer being paid for your time, and you will have to 
 
 # Finding the Log File
 
-The log files (plural, because Classroom keeps a separate one for each version of the software) are stored in the `%AppDataLocal%/Tutor.com/Tutor.com Classroom/<version>/` directories.
+The log files (plural, because Classroom keeps a separate one for each version of the software) are stored in the `%LocalAppData%/Tutor.com/Tutor.com Classroom%/Tutor.com/Tutor.com Classroom/<version>/` directories.
 
 For non-nerds, you can find the log file for the current version by right clicking on the tray icon, clicking "about", and then clicking the link to the log file. This will open the file in your default text editor. You can "save as" to save a copy to your desktop so it's easy to find and upload.
 
